@@ -208,8 +208,10 @@ public class TransactionScopedEntityManager extends AbstractEntityManager implem
      * is requested.  We are only fussy in this test, if the target component persistence context is SYNCHRONIZED.
      */
     private static void testForMixedSynchronizationTypes(EntityManager entityManager, String scopedPuName, final SynchronizationType targetSynchronizationType) {
-        if (SynchronizationType.SYNCHRONIZED.equals(targetSynchronizationType) &&
-                entityManager instanceof SynchronizationTypeAccess &&
+        if ( !SynchronizationType.SYNCHRONIZED.equals(targetSynchronizationType) ) return;
+        if (Configuration.isCheckSynchronizationAsJoin(entityManager.getEntityManagerFactory().getProperties())){
+             if (!entityManager.isJoinedToTransaction()) throw JpaLogger.ROOT_LOGGER.badSynchronizationTypeCombination(scopedPuName);
+        }else if (entityManager instanceof SynchronizationTypeAccess &&
                 SynchronizationType.UNSYNCHRONIZED.equals(((SynchronizationTypeAccess)entityManager).getSynchronizationType())) {
             throw JpaLogger.ROOT_LOGGER.badSynchronizationTypeCombination(scopedPuName);
         }

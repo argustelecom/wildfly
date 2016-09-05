@@ -181,6 +181,11 @@ public class Configuration {
      */
     public static final String PROVIDER_MODULE_HIBERNATE_SEARCH = "org.hibernate.search.orm:main";
 
+    /**
+     * Set to true to check synchronization with the additional check of transaction joining (WFLY-6127)
+     */
+    public static final String JPA_SYNCASJOIN = "jboss.as.jpa.syncasjoin";
+
     private static final String EE_DEFAULT_DATASOURCE = "java:comp/DefaultDataSource";
     // key = provider class name, value = module name
     private static final Map<String, String> providerClassToModuleName = new HashMap<String, String>();
@@ -313,4 +318,12 @@ public class Configuration {
         }
         return null;
     }
+
+    public static boolean isCheckSynchronizationAsJoin(final Map<String, Object> properties){
+         boolean result = false;
+         if ( properties.containsKey(JPA_SYNCASJOIN))
+             result = Boolean.parseBoolean((String)properties.get(JPA_SYNCASJOIN));
+         return result;
+    }
+
 }

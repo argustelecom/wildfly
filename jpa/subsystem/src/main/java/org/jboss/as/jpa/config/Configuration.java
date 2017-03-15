@@ -185,7 +185,12 @@ public class Configuration {
      * Set to true to check synchronization with the additional check of transaction joining (WFLY-6127)
      */
     public static final String JPA_SYNCASJOIN = "jboss.as.jpa.syncasjoin";
-
+    
+    /**
+     * Set to true to skip mixed type check in {@link org.jboss.as.jpa.container.TransactionScopedEntityManager#testForMixedSynchronizationTypes}
+     */
+    public static final String JPA_SKIP_MIXEDTYPECHECK = "wildfly.jpa.skipmixedsynctypechecking";
+    
     private static final String EE_DEFAULT_DATASOURCE = "java:comp/DefaultDataSource";
     // key = provider class name, value = module name
     private static final Map<String, String> providerClassToModuleName = new HashMap<String, String>();
@@ -319,6 +324,12 @@ public class Configuration {
         return null;
     }
 
+    /**
+     * Is isJoinedToTransaction method result the same as Synchronized type.
+     * Read from instruction: {@link JPA_SYNCASJOIN}
+     * @param properties
+     * @return
+     */
     public static boolean isCheckSynchronizationAsJoin(final Map<String, Object> properties){
          boolean result = false;
          if ( properties.containsKey(JPA_SYNCASJOIN))
@@ -326,4 +337,15 @@ public class Configuration {
          return result;
     }
 
+    /**
+     * Should we skip mixed type check in {@link org.jboss.as.jpa.container.TransactionScopedEntityManager#testForMixedSynchronizationTypes}
+     * @param properties
+     * @return
+     */
+    public static boolean isNeededToSkipMixedTypeCheck(final Map<String, Object> properties){
+         boolean result = false;
+         if ( properties.containsKey(JPA_SKIP_MIXEDTYPECHECK))
+             result = Boolean.parseBoolean((String)properties.get(JPA_SKIP_MIXEDTYPECHECK));
+         return result;
+    }
 }

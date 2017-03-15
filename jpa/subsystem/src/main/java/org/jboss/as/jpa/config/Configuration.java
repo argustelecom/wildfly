@@ -185,12 +185,12 @@ public class Configuration {
      * Set to true to check synchronization with the additional check of transaction joining (WFLY-6127)
      */
     public static final String JPA_SYNCASJOIN = "jboss.as.jpa.syncasjoin";
-    
+
     /**
      * Set to true to skip mixed type check in {@link org.jboss.as.jpa.container.TransactionScopedEntityManager#testForMixedSynchronizationTypes}
      */
     public static final String JPA_SKIP_MIXEDTYPECHECK = "wildfly.jpa.skipmixedsynctypechecking";
-    
+
     private static final String EE_DEFAULT_DATASOURCE = "java:comp/DefaultDataSource";
     // key = provider class name, value = module name
     private static final Map<String, String> providerClassToModuleName = new HashMap<String, String>();

@@ -209,11 +209,11 @@ public class TransactionScopedEntityManager extends AbstractEntityManager implem
      */
     private static void testForMixedSynchronizationTypes(EntityManager entityManager, String scopedPuName, final SynchronizationType targetSynchronizationType) {
         if (Configuration.isNeededToSkipMixedTypeCheck(entityManager.getEntityManagerFactory().getProperties())) return;
-    	if ( !SynchronizationType.SYNCHRONIZED.equals(targetSynchronizationType) ) return;
-        
-    	if (Configuration.isCheckSynchronizationAsJoin(entityManager.getEntityManagerFactory().getProperties())){
+        if ( !SynchronizationType.SYNCHRONIZED.equals(targetSynchronizationType) ) return;
+
+        if (Configuration.isCheckSynchronizationAsJoin(entityManager.getEntityManagerFactory().getProperties())){
              if (!entityManager.isJoinedToTransaction()){
-            	 throw JpaLogger.ROOT_LOGGER.badSynchronizationTypeCombination(scopedPuName);
+                 throw JpaLogger.ROOT_LOGGER.badSynchronizationTypeCombination(scopedPuName);
              }
         }else if (entityManager instanceof SynchronizationTypeAccess &&
                 SynchronizationType.UNSYNCHRONIZED.equals(((SynchronizationTypeAccess)entityManager).getSynchronizationType())) {
